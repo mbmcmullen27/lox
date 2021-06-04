@@ -7,7 +7,7 @@ class AstPrinter implements Expr.Visitor<String> {
     
     @Override
     public String visitTernaryExpr(Expr.Ternary expr) {
-        return parenthesize(expr.operator.lexeme, expr.pass, expr.fail);
+        return parenthesize(expr.operator.lexeme+expr.operator2.lexeme, expr.conditional, expr.pass, expr.fail);
     }
 
     @Override
