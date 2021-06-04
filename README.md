@@ -17,7 +17,7 @@ java com/craftinginterpreters/lox/Lox testfile
 
 ## Notes
 
-### Chapter 5 - Parsing
+### Chapter 6 - Parsing
 
 - comma operator: 
     - added the comma operator first, giving it the lowest precendence, before equality since it separates expressions
