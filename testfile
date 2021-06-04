@@ -1,4 +1,5 @@
 // this is a comment
 //(( )){} // grouping stuff
 //!*+-/=<> <= == // operators
-(2==9)?(2*9)-0:-(4)
+?
+9-0:-(4)

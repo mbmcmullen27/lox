@@ -25,6 +25,7 @@ class Parser {
     }
 
     private Expr comma(){
+        if (match(COMMA)) error(peek(), "Comma operator missing left operand");
         Expr expr = ternary();
         while (match(COMMA)){
             Token operator = previous();
@@ -36,8 +37,10 @@ class Parser {
     }
 
     private Expr ternary(){
+        if (match(QUESTION)) error(peek(), "Conditional operator missing boolean expression");
         Expr expr = equality();
         if(match(QUESTION)) {
+            if (match(COLON)) error(peek(), "Ternary operator missing first expression");
             Token operator = previous();
             Expr pass = equality();
             if(match(COLON)) {
@@ -52,6 +55,7 @@ class Parser {
     }
 
     private Expr equality() {
+        if(match(BANG_EQUAL,EQUAL_EQUAL)) error(peek(),"Equality missing left operand");
         Expr expr = comparison();
 
         while (match(BANG_EQUAL, EQUAL_EQUAL)) {
@@ -64,6 +68,7 @@ class Parser {
     }
 
     private Expr comparison() {
+        if(match(GREATER, GREATER_EQUAL, LESS, LESS_EQUAL)) error(peek(),"Comparison missing left operand");
         Expr expr = term();
 
         while (match(GREATER, GREATER_EQUAL, LESS, LESS_EQUAL)) {
@@ -76,6 +81,7 @@ class Parser {
     }
 
     private Expr term() {
+        if(match(PLUS)) error(peek(),"Term missing left operand");
         Expr expr = factor();
 
         while (match(MINUS, PLUS)) {
@@ -88,6 +94,7 @@ class Parser {
     }
 
     private Expr factor() {
+        if(match(SLASH, STAR)) error(peek(),"Factor missing left operand");
         Expr expr = unary();
 
         while (match(SLASH, STAR)) {
