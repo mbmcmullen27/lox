@@ -4,6 +4,11 @@ class AstPrinter implements Expr.Visitor<String> {
     String print(Expr expr) { 
         return expr.accept(this);
     }
+    
+    @Override
+    public String visitTernaryExpr(Expr.Ternary expr) {
+        return parenthesize(expr.operator.lexeme, expr.pass, expr.fail);
+    }
 
     @Override
     public String visitBinaryExpr(Expr.Binary expr) {

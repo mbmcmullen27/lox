@@ -21,7 +21,34 @@ class Parser {
     }
 
     private Expr expression() {
-        return equality();
+        return comma();
+    }
+
+    private Expr comma(){
+        Expr expr = ternary();
+        while (match(COMMA)){
+            Token operator = previous();
+            Expr right = ternary();
+            expr = new Expr.Binary(expr,operator,right);
+        }
+
+        return expr;
+    }
+
+    private Expr ternary(){
+        Expr expr = equality();
+        if(match(QUESTION)) {
+            Token operator = previous();
+            Expr pass = equality();
+            if(match(COLON)) {
+                Token operator2 = previous();
+                Expr fail = equality();
+                expr = new Expr.Ternary(expr,operator,pass,operator2,fail);
+            }else{
+                throw error(peek(), "Expect ':' after '?'");
+            }
+        }
+        return expr;
     }
 
     private Expr equality() {
