@@ -6,3 +6,5 @@ src/TokenType.java
 src/Expr.java
 src/AstPrinter.java
 src/Parser.java
+src/Interpreter.java
+src/RuntimeError.java
