@@ -31,3 +31,10 @@ java com/craftinginterpreters/lox/Lox testfile
 - Ternary operator '?:'
     - I implemented the ternary operator as a separate ternary expression. Is this normal? or do other languages maybe consider the ternary operator as 2 separte binary expressions? I'm not sure that makes more sense. 
     - I'm concerned this might complicate using the '?' as a different operator later, since We throw an error if an ':' character isn't found after '?', maybe we just skip the error if it's not useful later.
+
+### Chapter 8 - Statements and State
+
+- I just noticed this in the parser, does it make sense to error if comma is missing a left operand? it discards the result anyway doesn't it? 
+```java
+    if (match(COMMA)) error(peek(), "Comma operator missing left operand");
+```

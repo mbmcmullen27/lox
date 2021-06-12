@@ -1,5 +1,3 @@
-// this is a comment
-//(( )){} // grouping stuff
-//!*+-/=<> <= == // operators
-?
-9-0:-(4)
+print "one";
+print true;
+print 2+1;

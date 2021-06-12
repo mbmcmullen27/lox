@@ -4,6 +4,7 @@ src/Scanner.java
 src/Token.java
 src/TokenType.java
 src/Expr.java
+src/Stmt.java
 src/AstPrinter.java
 src/Parser.java
 src/Interpreter.java
