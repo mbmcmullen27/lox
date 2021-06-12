@@ -111,9 +111,18 @@ class Interpreter implements Expr.Visitor<Object> {
                     return (String)left + (String)right;
                 }
 
-                throw new RuntimeError(expr.operator, "Operands must be two numbers or two strings.");
+                if (left instanceof String && right instanceof Double) {
+                    return (String)left + right.toString();
+                }
+
+                if (left instanceof Double && right instanceof String) {
+                    return left.toString() + (String)right;
+                }
+
+                throw new RuntimeError(expr.operator, "+ operands must be numbers or strings.");
             case SLASH:
                 checkNumberOperands(expr.operator,left,right);
+                if((double)right==0.0) throw new RuntimeError(expr.operator, "/ by Zero is ILLEGAL.");
                 return (double)left / (double)right;
             case STAR:
                 checkNumberOperands(expr.operator,left,right);
@@ -127,7 +136,10 @@ class Interpreter implements Expr.Visitor<Object> {
     @Override
     public Object visitTernaryExpr(Expr.Ternary expr) {
         Object condition = evaluate(expr.conditional);
-        return condition;
+        Object result;
+        if((boolean) condition) result = evaluate(expr.pass);
+        else result = evaluate(expr.fail);
+        return result;
     }
 
 }
