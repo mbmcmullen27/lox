@@ -5,6 +5,8 @@ import java.util.List;
 class Interpreter 
 implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
+    private Environment environment = new Environment();
+
     void interpret(List<Stmt> statements){
         try {
             for (Stmt statement : statements) {
@@ -34,6 +36,11 @@ implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
         // Unreachable.
         return null;
+    }
+
+    @Override
+    public Object visitVariableExpr(Expr.Variable expr) {
+        return environment.get(expr.name);
     }
 
     private void checkNumberOperand(Token operator, Object operand) {
@@ -101,6 +108,24 @@ implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Void visitVarStmt(Stmt.Var stmt) {
+        Object value = null; 
+        if (stmt.initializer != null) {
+            value = evaluate(stmt.initializer);
+        }
+        
+        environment.define(stmt.name.lexeme, value);
+        return null;
+    }
+
+    @Override
+    public Object visitAssignExpr(Expr.Assign expr) {
+        Object value = evaluate(expr.value);
+        environment.assign(expr.name, value);
+        return value;
+    }
+
+    @Override
     public Object visitBinaryExpr(Expr.Binary expr) {
         Object left = evaluate(expr.left);
         Object right = evaluate(expr.right);
@@ -133,11 +158,11 @@ implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
                 }
 
                 if (left instanceof String && right instanceof Double) {
-                    return (String)left + right.toString();
+                    return (String)left + stringify(right);
                 }
 
                 if (left instanceof Double && right instanceof String) {
-                    return left.toString() + (String)right;
+                    return stringify(left) + (String)right;
                 }
 
                 throw new RuntimeError(expr.operator, "+ operands must be numbers or strings.");

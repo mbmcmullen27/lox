@@ -5,7 +5,7 @@ src/Token.java
 src/TokenType.java
 src/Expr.java
 src/Stmt.java
-src/AstPrinter.java
 src/Parser.java
 src/Interpreter.java
+src/Environment.java
 src/RuntimeError.java

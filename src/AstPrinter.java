@@ -23,7 +23,13 @@ class AstPrinter implements Expr.Visitor<String> {
     @Override
     public String visitLiteralExpr(Expr.Literal expr) {
         if (expr.value == null) return "nil";
-        return expr.value.toString();
+        return parenthesize(expr.value.toString());
+    }
+
+    @Override
+    public String visitVariableExpr(Expr.Variable expr) {
+        if (expr.name == null) return "nil";
+        return parenthesize(expr.name.lexeme);
     }
 
     @Override
