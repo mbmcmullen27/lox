@@ -31,6 +31,7 @@ java com/craftinginterpreters/lox/Lox testfile
 - Ternary operator '?:'
     - I implemented the ternary operator as a separate ternary expression. Is this normal? or do other languages maybe consider the ternary operator as 2 separte binary expressions? I'm not sure that makes more sense. 
     - I'm concerned this might complicate using the '?' as a different operator later, since We throw an error if an ':' character isn't found after '?', maybe we just skip the error if it's not useful later.
+        - second thought, this is not a problem because ternary op has the lowest precedence
 
 ### Chapter 8 - Statements and State
 
