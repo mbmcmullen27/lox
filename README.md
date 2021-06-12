@@ -12,7 +12,7 @@ java com/craftinginterpreters/lox/Lox
 
 Execute file:
 ```bash
-java com/craftinginterpreters/lox/Lox testfile 
+java com/craftinginterpreters/lox/Lox test/testfile 
 ```
 
 ## Notes
@@ -57,3 +57,9 @@ java com/craftinginterpreters/lox/Lox testfile
 
     - I find statements like this^^ ('funny how those other people do this thing while...'- type commentary) to be unproductive. Not even sure what he's taking a jab at here, guess he doesn't like functional programmers.
 
+- (Scope 8.5)
+    >Lexical scope came onto the scene with ALGOL. Earlier languages were often dynamically scoped. Computer scientists back then believed dynamic scope was faster to execute. Today, thanks to early Scheme hackers, we know that isn’t true. If anything, it’s the opposite.
+
+    - ^^ interesting bit of CS history (and another Scheme reference, this guy _loves_ Scheme apparently)
+
+    > Dynamic scope for variables lives on in some corners. Emacs Lisp defaults to dynamic scope for variables. The [binding macro in Clojure](https://clojuredocs.org/clojure.core/binding) provides it. The widely disliked [with statement in JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with) turns properties on an object into dynamically scoped variables.
