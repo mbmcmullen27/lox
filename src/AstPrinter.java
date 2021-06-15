@@ -33,6 +33,12 @@ class AstPrinter implements Expr.Visitor<String> {
     }
 
     @Override
+    public String visitVariableExpr(Expr.Variable expr) {
+        if (expr.name == null) return "nil";
+        return parenthesize(expr.name.lexeme);
+    }
+
+    @Override
     public String visitUnaryExpr(Expr.Unary expr) {
         return parenthesize(expr.operator.lexeme, expr.right);
     }
