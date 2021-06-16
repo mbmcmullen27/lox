@@ -8,16 +8,17 @@ abstract class Expr{
 		R visitBinaryExpr(Binary expr);
 		R visitGroupingExpr(Grouping expr);
 		R visitLiteralExpr(Literal expr);
+		R visitLogicalExpr(Logical expr);
 		R visitUnaryExpr(Unary expr);
 		R visitVariableExpr(Variable expr);
 	}
 	static class Ternary extends Expr {
-		Ternary(Expr conditional, Token operator, Expr pass, Token operator2, Expr fail) {
-			this.conditional = conditional;
+		Ternary(Expr condition, Token operator, Stmt thenBranch, Token operator2, Stmt elseBranch) {
+			this.condition = condition;
 			this.operator = operator;
-			this.pass = pass;
+			this.thenBranch = thenBranch;
 			this.operator2 = operator2;
-			this.fail = fail;
+			this.elseBranch = elseBranch;
 		}
 
 		@Override
@@ -25,11 +26,11 @@ abstract class Expr{
 		return visitor.visitTernaryExpr(this);
 		}
 
-		final Expr conditional;
+		final Expr condition;
 		final Token operator;
-		final Expr pass;
+		final Stmt thenBranch;
 		final Token operator2;
-		final Expr fail;
+		final Stmt elseBranch;
 	}
 	static class Assign extends Expr {
 		Assign(Token name, Expr value) {
@@ -84,6 +85,22 @@ abstract class Expr{
 		}
 
 		final Object value;
+	}
+	static class Logical extends Expr {
+		Logical(Expr left, Token operator, Expr right) {
+			this.left = left;
+			this.operator = operator;
+			this.right = right;
+		}
+
+		@Override
+		<R> R accept(Visitor<R> visitor) {
+		return visitor.visitLogicalExpr(this);
+		}
+
+		final Expr left;
+		final Token operator;
+		final Expr right;
 	}
 	static class Unary extends Expr {
 		Unary(Token operator, Expr right) {
