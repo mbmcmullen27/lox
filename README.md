@@ -97,3 +97,10 @@ java com/craftinginterpreters/lox/Lox test/testfile
             return null;
         }
         ```
+
+___
+### Chapter 9 - Control Flow
+
+    "... But the opening parenthesis after if doesn’t do anything useful. Dennis Ritchie put it there so he could use ) as the ending delimiter without having unbalanced parentheses."
+
+- not sure who Dennis Ritchie is but I think I'm on his side on this one. I hate the weird grouping chars that Bash uses sometimes like if->fi and case->esac, just because I think its ugly.
