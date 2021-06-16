@@ -63,3 +63,37 @@ java com/craftinginterpreters/lox/Lox test/testfile
     - ^^ interesting bit of CS history (and another Scheme reference, this guy _loves_ Scheme apparently)
 
     > Dynamic scope for variables lives on in some corners. Emacs Lisp defaults to dynamic scope for variables. The [binding macro in Clojure](https://clojuredocs.org/clojure.core/binding) provides it. The widely disliked [with statement in JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/with) turns properties on an object into dynamically scoped variables.
+
+- Challenge:
+    1. implemented these prints in the repl by making visitExpressionStatement include a print
+    2. implemented the unassigned var excception, by setting each name to true in a new 'assigned' map when they
+        - this lets us use nil has a legit value, and forces us to provide _something_ as a var initializer before the var can be used.
+        - gives us explicit nils but doesn't work when you intialize on the definition.
+            
+            the first throws 'unassigned variable' 
+            ```lox
+            var b = nil;
+            print b;
+
+            var b;
+            b = nil;
+            print b;
+            ```
+
+        - so we force an assign when nil is given to a var statement, this feels kind of messy
+        ```java
+        public Void visitVarStmt(Stmt.Var stmt) {
+            Object value = null; 
+            if (stmt.initializer != null) {
+                value = evaluate(stmt.initializer);
+                if(value == null && stringify(value) != "nil") throw new RuntimeError(stmt.name, "Unassigned variable'" + stmt.name.lexeme + "'.");
+                environment.define(stmt.name.lexeme, value);
+                environment.assign(stmt.name, value);
+                
+            }else{
+                environment.define(stmt.name.lexeme, value);
+            }
+
+            return null;
+        }
+        ```

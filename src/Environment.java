@@ -6,6 +6,7 @@ import java.util.Map;
 class Environment {
     final Environment enclosing;
     private final Map<String, Object> values = new HashMap<>();
+    private final Map<String, Boolean> assigned = new HashMap<>();
 
     Environment() {
         enclosing = null;
@@ -17,7 +18,8 @@ class Environment {
 
     Object get(Token name) {
         if (values.containsKey(name.lexeme)) {
-            return values.get(name.lexeme);
+            if(assigned.containsKey(name.lexeme)) return values.get(name.lexeme);
+            throw new RuntimeError(name, "Unassigned variable'" + name.lexeme + "'.");
         }
 
         if (enclosing != null) return enclosing.get(name);
@@ -28,6 +30,7 @@ class Environment {
     void assign(Token name, Object value) {
         if (values.containsKey(name.lexeme)) {
             values.put(name.lexeme, value);
+            assigned.put(name.lexeme, true);
             return;
         }
 

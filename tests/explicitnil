@@ -1,0 +1,5 @@
+var c = nil;
+print c;
+
+var b;
+print b;

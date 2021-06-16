@@ -116,7 +116,8 @@ implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitExpressionStmt(Stmt.Expression stmt) {
-        evaluate(stmt.expression);
+        Object value = evaluate(stmt.expression);
+        System.out.println(stringify(value));
         return null;
     }
 
@@ -132,9 +133,13 @@ implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         Object value = null; 
         if (stmt.initializer != null) {
             value = evaluate(stmt.initializer);
+            environment.define(stmt.name.lexeme, value);
+            environment.assign(stmt.name, value);
+            
+        }else{
+            environment.define(stmt.name.lexeme, value);
         }
-        
-        environment.define(stmt.name.lexeme, value);
+
         return null;
     }
 
