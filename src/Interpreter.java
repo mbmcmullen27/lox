@@ -206,11 +206,11 @@ implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Object visitTernaryExpr(Expr.Ternary expr) {
-        Object condition = evaluate(expr.conditional);
+        Object condition = evaluate(expr.condition);
         Object result;
-        if((boolean) condition) result = evaluate(expr.pass);
-        else result = evaluate(expr.fail);
-        return result;
+        if((boolean) condition) execute(expr.thenBranch);
+        else execute(expr.elseBranch);
+
     }
 
 }

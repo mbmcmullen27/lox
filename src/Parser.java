@@ -115,11 +115,11 @@ class Parser {
         if(match(QUESTION)) {
             if (match(COLON)) error(peek(), "Ternary operator missing first expression");
             Token operator = previous();
-            Expr pass = equality();
+            Stmt thenStmt = statement();
             if(match(COLON)) {
                 Token operator2 = previous();
-                Expr fail = equality();
-                expr = new Expr.Ternary(expr,operator,pass,operator2,fail);
+                Stmt elseStmt = statement();
+                expr = new Expr.Ternary(expr,operator,thenStmt,operator2,elseStmt);
             }else{
                 throw error(peek(), "Expect ':' after '?'");
             }
