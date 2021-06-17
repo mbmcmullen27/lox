@@ -43,6 +43,7 @@ class Parser {
         if (match(IF)) return ifStatement();
         if (match(PRINT)) return printStatement();
         if (match(WHILE)) return whileStatement();
+        // if (match(BREAK)) return breakStatement();
         if (match(LEFT_BRACE)) return new Stmt.Block(block());
 
         return expressionStatement();
@@ -112,6 +113,11 @@ class Parser {
         consume(SEMICOLON, "Expexct ';' after value.");
         return new Stmt.Print(value);
     }
+
+    // private Stmt breakStatement() {
+    //     consume(SEMICOLON, "Expect ';' after break statement.");
+    //     return new Stmt.Break();
+    // }
 
     private Stmt varDeclaration() {
         Token name = consume(IDENTIFIER, "Expect variable name.");

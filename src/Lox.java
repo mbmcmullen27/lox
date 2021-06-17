@@ -27,6 +27,7 @@ public class Lox {
 
     private static void runFile(String path) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(path));
+        Interpreter.isRepl = false;
         run(new String(bytes, Charset.defaultCharset()));
 
         // indicate an error in the exit code 

@@ -6,6 +6,7 @@ class Interpreter
 implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     private Environment environment = new Environment();
+    public static Boolean isRepl = true;
 
     void interpret(List<Stmt> statements){
         try {
@@ -129,7 +130,7 @@ implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Void visitExpressionStmt(Stmt.Expression stmt) {
         Object value = evaluate(stmt.expression);
-        System.out.println(stringify(value));
+        if(isRepl) System.out.println(stringify(value));
         return null;
     }
 
