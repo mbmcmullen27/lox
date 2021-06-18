@@ -1,7 +1,0 @@
-var c = 9;
-print "c: "+c;
-
-var b = 10;
-print "b: "+b;
-
-c==b?"true":"false";

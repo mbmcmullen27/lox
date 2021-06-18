@@ -13,11 +13,9 @@ abstract class Expr{
 		R visitVariableExpr(Variable expr);
 	}
 	static class Ternary extends Expr {
-		Ternary(Expr condition, Token operator, List<Stmt> thenBranch, Token operator2, List<Stmt> elseBranch) {
+		Ternary(Expr condition, Expr thenBranch, Expr elseBranch) {
 			this.condition = condition;
-			this.operator = operator;
 			this.thenBranch = thenBranch;
-			this.operator2 = operator2;
 			this.elseBranch = elseBranch;
 		}
 
@@ -27,10 +25,8 @@ abstract class Expr{
 		}
 
 		final Expr condition;
-		final Token operator;
-		final List<Stmt> thenBranch;
-		final Token operator2;
-		final List<Stmt> elseBranch;
+		final Expr thenBranch;
+		final Expr elseBranch;
 	}
 	static class Assign extends Expr {
 		Assign(Token name, Expr value) {
