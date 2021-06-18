@@ -14,7 +14,7 @@ public class GenerateAst {
 
         String outputDir = args[0];
         defineAst(outputDir, "Expr", Arrays.asList(
-            "Ternary  : Expr condition, Token operator, Stmt thenBranch, Token operator2, Stmt elseBranch",
+            "Ternary  : Expr condition, Token operator, List<Stmt> thenBranch, Token operator2, List<Stmt> elseBranch",
             "Assign   : Token name, Expr value",
             "Binary   : Expr left, Token operator, Expr right",
             "Grouping : Expr expression",
@@ -30,8 +30,8 @@ public class GenerateAst {
             "If         : Expr condition, Stmt thenBranch, Stmt elseBranch",
             "Print      : Expr expression",
             "Var        : Token name, Expr initializer",
-            "While      : Expr condition, Stmt body"
-            // "Break      : "
+            "While      : Expr condition, Stmt body",
+            "Break      : NONE"
         ));
     }
 
@@ -76,13 +76,16 @@ public class GenerateAst {
     private static void defineType(PrintWriter writer, String baseName, String className, String fieldList) {
         writer.println("\tstatic class " + className + " extends " + baseName + " {");
         // Constructor
-        writer.println("\t\t" + className + "(" + fieldList + ") {");
+        String list = fieldList.equals("NONE") ? "" : fieldList;
+        writer.println("\t\t" + className + "(" + list + ") {");
 
         // Store parameters in fields.
         String [] fields = fieldList.split(", ");
         for (String field : fields) {
-            String name = field.split(" ")[1];
-            writer.println("\t\t\tthis." + name + " = " + name + ";");
+            if(!field.equals("NONE")) {
+                String name = field.split(" ")[1];
+                writer.println("\t\t\tthis." + name + " = " + name + ";");
+            }
         }
         
         writer.println("\t\t}");
@@ -97,7 +100,8 @@ public class GenerateAst {
         // Fields.
         writer.println();
         for (String field : fields) {
-            writer.println("\t\tfinal " + field + ";");
+            if(!field.equals("NONE"))
+                writer.println("\t\tfinal " + field + ";");
         }
 
         writer.println("\t}");
