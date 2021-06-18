@@ -5,3 +5,12 @@ while (x<10)
     x = x+1;
     print x;
 }
+
+print "end of first loop";
+
+while(x<20){
+    x = x+1;
+    print x;
+    break;
+    print "unreachable won't print text";
+}

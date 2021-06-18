@@ -9,6 +9,7 @@ class Parser {
     private static class ParseError extends RuntimeException {}
     private final List<Token> tokens;
     private int current = 0;
+    private int loopDepth = 0;
     
     Parser(List<Token> tokens) {
         this.tokens = tokens;
@@ -43,6 +44,7 @@ class Parser {
         if (match(IF)) return ifStatement();
         if (match(PRINT)) return printStatement();
         if (match(WHILE)) return whileStatement();
+        if (match(BREAK)) return breakStatement();
         if (match(LEFT_BRACE)) return new Stmt.Block(block());
 
         return expressionStatement();
@@ -72,25 +74,31 @@ class Parser {
         }
         consume(RIGHT_PAREN, "Expect ')' after for clauses.");
 
-        Stmt body = statement();
+        try {
+            loopDepth++;
+            Stmt body = statement();
 
-        if (increment != null) {
-            body = new Stmt.Block(
-                Arrays.asList(
-                    body,
-                    new Stmt.Expression(increment)
-                )
-            );
+            if (increment != null) {
+                body = new Stmt.Block(
+                    Arrays.asList(
+                        body,
+                        new Stmt.Expression(increment)
+                    )
+                );
+            }
+
+            if (condition == null) condition = new Expr.Literal(true);
+            body = new Stmt.While(condition, body);
+
+            if (initializer != null) {
+                body = new Stmt.Block(Arrays.asList(initializer, body));
+            }
+
+            return body;
+        } finally {
+            loopDepth--;
         }
 
-        if (condition == null) condition = new Expr.Literal(true);
-        body = new Stmt.While(condition, body);
-
-        if (initializer != null) {
-            body = new Stmt.Block(Arrays.asList(initializer, body));
-        }
-
-        return body;
     }
 
     private Stmt ifStatement() {
@@ -113,6 +121,15 @@ class Parser {
         return new Stmt.Print(value);
     }
 
+    private Stmt breakStatement() {
+        if (loopDepth == 0) {
+            error(previous(), "Must be inside a loop to use 'break'.");
+        }
+
+        consume(SEMICOLON, "Expect ';' after break statement.");
+        return new Stmt.Break();    
+    }
+
     private Stmt varDeclaration() {
         Token name = consume(IDENTIFIER, "Expect variable name.");
 
@@ -129,9 +146,15 @@ class Parser {
         consume(LEFT_PAREN, "Expect '(' after 'while'.");
         Expr condition = expression();
         consume(RIGHT_PAREN, "Expect ')' after condition.");
-        Stmt body = statement();
 
-        return new Stmt.While(condition, body);
+        try {
+            loopDepth++;
+            Stmt body = statement();
+
+            return new Stmt.While(condition, body);
+        } finally {
+            loopDepth--;
+        }
     }
 
     private Stmt expressionStatement() {
@@ -209,16 +232,11 @@ class Parser {
         if (match(QUESTION)) error(peek(), "Conditional operator missing boolean expression");
         Expr expr = equality();
         if(match(QUESTION)) {
-            if (match(COLON)) error(peek(), "Ternary operator missing first expression");
             Token operator = previous();
-            Stmt thenStmt = statement();
-            if(match(COLON)) {
-                Token operator2 = previous();
-                Stmt elseStmt = statement();
-                expr = new Expr.Ternary(expr,operator,thenStmt,operator2,elseStmt);
-            }else{
-                throw error(peek(), "Expect ':' after '?'");
-            }
+            Expr thenStmt = expression();
+            consume(COLON, "Expect ':' after then branch of conditional expression.");
+            Expr elseStmt = ternary();
+            expr = new Expr.Ternary(expr,thenStmt,elseStmt);
         }
         return expr;
     }

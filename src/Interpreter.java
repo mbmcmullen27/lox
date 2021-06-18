@@ -2,10 +2,14 @@ package com.craftinginterpreters.lox;
 
 import java.util.List;
 
+
 class Interpreter 
 implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
+    
+    private static class BreakException extends RuntimeException {}
 
     private Environment environment = new Environment();
+    public static Boolean isRepl = true;
 
     void interpret(List<Stmt> statements){
         try {
@@ -129,7 +133,7 @@ implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     @Override
     public Void visitExpressionStmt(Stmt.Expression stmt) {
         Object value = evaluate(stmt.expression);
-        System.out.println(stringify(value));
+        if(isRepl) System.out.println(stringify(value));
         return null;
     }
 
@@ -168,10 +172,20 @@ implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitWhileStmt(Stmt.While stmt) {
-        while (isTruthy(evaluate(stmt.condition))) {
-            execute(stmt.body);
+        try {
+            while (isTruthy(evaluate(stmt.condition))) {
+                execute(stmt.body);
+            }
+        } catch (BreakException ex) {
+            // do nothing
         }
+
         return null;
+    }
+
+    @Override
+    public Void visitBreakStmt(Stmt.Break stmt) {
+        throw new BreakException();
     }
 
     @Override
@@ -236,12 +250,10 @@ implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
-    public Void visitTernaryExpr(Expr.Ternary expr) {
+    public Object visitTernaryExpr(Expr.Ternary expr) {
         Object condition = evaluate(expr.condition);
-        if((boolean) condition) execute(expr.thenBranch);
-        else execute(expr.elseBranch);
-
-        return null;
+        if(isTruthy(condition)) return evaluate(expr.thenBranch);
+        else return evaluate(expr.elseBranch);
     }
 
 }

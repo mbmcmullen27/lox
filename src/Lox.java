@@ -27,6 +27,7 @@ public class Lox {
 
     private static void runFile(String path) throws IOException {
         byte[] bytes = Files.readAllBytes(Paths.get(path));
+        Interpreter.isRepl = false;
         run(new String(bytes, Charset.defaultCharset()));
 
         // indicate an error in the exit code 
@@ -39,7 +40,7 @@ public class Lox {
         BufferedReader reader = new BufferedReader(input);
 
         for(;;){
-            System.out.println("> ");
+            System.out.print("> ");
             String line = reader.readLine();
             if (line == null) break;
             run(line);
