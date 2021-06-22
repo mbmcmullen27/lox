@@ -1,5 +1,6 @@
 package com.craftinginterpreters.lox;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -247,6 +248,23 @@ implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
         // Unreachable.
         return null;
+    }
+
+    @Override
+    public Object visitCallExpr(Expr.Call expr) {
+        Object callee = evaluate(expr.callee);
+
+        List<Object> arguments = new ArrayList<>();
+        for (Expr argument : expr.arguments) {
+            arguments.add(evaluate(argument));
+        }
+
+        if (!(callee instanceof LoxCallable)) {
+            throw new RuntimeError(expr.paren, "Only functions and classes are callable objects.")
+        }
+
+        LoxCallable function = (LoxCCallable)callee;
+        return function.ccall(this, arguments);
     }
 
     @Override
