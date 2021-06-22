@@ -1,4 +1,5 @@
 # lox
+as defined in [Crafting Interpreters](https://craftinginterpreters.com/) by Bob Nystrom
 
 Build:
 ```bash
