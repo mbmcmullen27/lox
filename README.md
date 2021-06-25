@@ -117,3 +117,29 @@ ___
     - never occured to me there'd be a limit here, but I suppose there has to be in compiled languages? 
     
     > Our Java interpreter for Lox doesn’t really need a limit, but having a maximum number of arguments will simplify our bytecode interpreter in Part III. We want our two interpreters to be compatible with each other, even in weird corner cases like this, so we’ll add the same limit to jlox.
+
+- Interpreting function calls
+    > This is another one of those subtle semantic choices. Since argument expressions may have side effects, the order they are evaluated could be user visible. Even so, some languages like Scheme and C don’t specify an order. This gives compilers freedom to reorder them for efficiency, but means users may be unpleasantly surprised if arguments aren’t evaluated in the order they expect.
+
+    - I think having a call or an assignment as an argument to another call is okay in practice, but having multiple that need to be executed in a specific order in the same call, would be bad practice anyway.
+
+- Native Functions 
+    > Many languages also allow users to provide their own native functions. The mechanism for doing so is called a foreign function interface (FFI), native extension, native interface, or something along those lines.
+
+    - I've not heard of this before but wonder what this looks like for something like javascript, or python
+
+- Function Declaration
+    ```java
+    private Stmt declaration() {
+        try {
+            if (match(FUN)) return function("function"); // this is kind of strange
+            if (match(VAR)) return varDeclaration();
+
+            return statement();
+        } catch (ParseError error) {
+            synchronize();
+            return null;
+        }
+    }
+    ```
+    - Weird that he got lazy with new enums and classes here, I suppose the overhead of another class method that inherits function is too much boilerplate for just this 1 check
