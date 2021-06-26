@@ -1,0 +1,3 @@
+#!/bin/bash
+# This doesn't work until we fix the AST printer
+javac -d ./ src/*;

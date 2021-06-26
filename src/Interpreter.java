@@ -156,6 +156,13 @@ implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Void visitFunctionStmt(Stmt.Function stmt) {
+        LoxFunction function = new LoxFunction(stmt);
+        environment.define(stmt.name.lexeme, function);
+        return null;
+    }
+
+    @Override
     public Void visitIfStmt(Stmt.If stmt) {
         if (isTruthy(evaluate(stmt.condition))) {
             execute(stmt.thenBranch);
@@ -277,7 +284,7 @@ implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
         }
 
         if (!(callee instanceof LoxCallable)) {
-            throw new RuntimeError(expr.paren, "Only functions and classes are callable objects.")
+            throw new RuntimeError(expr.paren, "Only functions and classes are callable objects.");
         }
 
         LoxCallable function = (LoxCallable)callee;
@@ -287,7 +294,7 @@ implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
                 arguments.size() + ".");
         }
 
-        return function.ccall(this, arguments);
+        return function.call(this, arguments);
     }
 
     @Override

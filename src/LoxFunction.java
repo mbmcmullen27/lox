@@ -14,7 +14,7 @@ class LoxFunction implements LoxCallable {
     }
 
     @Override
-    public in arity() {
+    public int arity() {
         return declaration.params.size();
     }
 

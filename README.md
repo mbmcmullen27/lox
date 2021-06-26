@@ -8,12 +8,20 @@ javac @args
 
 Start REPL:
 ```bash
+# java style
 java com/craftinginterpreters/lox/Lox
+
+#bash shortcut
+./lox
 ```
 
 Execute file:
 ```bash
+# the java way
 java com/craftinginterpreters/lox/Lox test/testfile 
+
+# bash shortcut
+./lox test/testfile
 ```
 
 ## Notes
@@ -143,3 +151,5 @@ ___
     }
     ```
     - Weird that he got lazy with new enums and classes here, I suppose the overhead of another class method that inherits function is too much boilerplate for just this 1 check
+    - is there a reason why we might implement another class?
+        >Just like we reuse the grammar rule, we’ll reuse the function() method later to parse methods inside classes. When we do that, we’ll pass in “method” for kind so that the error messages are specific to the kind of declaration being parsed.
