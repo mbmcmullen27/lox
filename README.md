@@ -153,3 +153,8 @@ ___
     - Weird that he got lazy with new enums and classes here, I suppose the overhead of another class method that inherits function is too much boilerplate for just this 1 check
     - is there a reason why we might implement another class?
         >Just like we reuse the grammar rule, we’ll reuse the function() method later to parse methods inside classes. When we do that, we’ll pass in “method” for kind so that the error messages are specific to the kind of declaration being parsed.
+
+    - [Return](src/Retrun.java)
+        > This class wraps the return value with the accoutrements Java requires for a runtime exception class. The weird super constructor call with those null and false arguments disables some JVM machinery that we don’t need. Since we’re using our exception class for control flow and not actual error handling, we don’t need overhead like stack traces.
+        
+        - neat use of Exception for something other than error handling

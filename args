@@ -7,6 +7,7 @@ src/LoxCallable.java
 src/LoxFunction.java
 src/Expr.java
 src/Stmt.java
+src/Return.java
 src/Parser.java
 src/Interpreter.java
 src/Environment.java
