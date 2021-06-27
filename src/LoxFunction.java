@@ -4,7 +4,7 @@ import java.util.List;
 
 class LoxFunction implements LoxCallable {
     private final Stmt.Function declaration;
-    privaet final Environment closure;
+    private final Environment closure;
 
     LoxFunction(Stmt.Function declaration, Environment closure) {
         this.closure = closure;
