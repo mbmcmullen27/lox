@@ -11,14 +11,20 @@ Start REPL:
 # java style
 java com/craftinginterpreters/lox/Lox
 
+# as a jar
+java -jar lox.jar
+
 #bash shortcut
 ./lox
 ```
 
 Execute file:
 ```bash
-# the java way
+# java style
 java com/craftinginterpreters/lox/Lox test/testfile 
+
+# as a jar
+java -jar lox.jar test/testfile
 
 # bash shortcut
 ./lox test/testfile
