@@ -3,8 +3,11 @@ src/Lox.java
 src/Scanner.java
 src/Token.java
 src/TokenType.java
+src/LoxCallable.java
+src/LoxFunction.java
 src/Expr.java
 src/Stmt.java
+src/Return.java
 src/Parser.java
 src/Interpreter.java
 src/Environment.java

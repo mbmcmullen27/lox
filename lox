@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ $# -eq 0 ] 
+then
+    java com/craftinginterpreters/lox/Lox
+else
+    java com/craftinginterpreters/lox/Lox $1
+fi
