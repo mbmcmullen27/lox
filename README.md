@@ -3,7 +3,12 @@ as defined in [Crafting Interpreters](https://craftinginterpreters.com/) by Bob 
 
 Build:
 ```bash
+# compile
 javac @args
+
+# make a jar
+jar -cfm lox.jar manifest.txt com/
+
 ```
 
 Start REPL:
