@@ -159,6 +159,7 @@ implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     public Void visitFunctionStmt(Stmt.Function stmt) {
         LoxFunction function = new LoxFunction(stmt, environment);
         environment.define(stmt.name.lexeme, function);
+        environment.assign(stmt.name, function);
         return null;
     }
 

@@ -169,3 +169,9 @@ ___
         > This class wraps the return value with the accoutrements Java requires for a runtime exception class. The weird super constructor call with those null and false arguments disables some JVM machinery that we don’t need. Since we’re using our exception class for control flow and not actual error handling, we don’t need overhead like stack traces.
         
         - neat use of Exception for something other than error handling
+
+
+- Function Assignment?
+    - He didn't assign his functions to the calling environment when they were declared, or anywhere else, causing runtime errors for "unassigned var"
+    - I suspect this is going to cause more trouble later, and only caused a problem right now because unassigned vars is defined as an Error.
+    - This gets us almost there, tests/functions and tests/count now work, but tests/fibonacci throws errors because of functions as operands for the + operator
