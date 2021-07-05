@@ -175,3 +175,4 @@ ___
     - He didn't assign his functions to the calling environment when they were declared, or anywhere else, causing runtime errors for "unassigned var"
     - I suspect this is going to cause more trouble later, and only caused a problem right now because unassigned vars is defined as an Error.
     - This gets us almost there, tests/functions and tests/count now work, but tests/fibonacci throws errors because of functions as operands for the + operator
+    - fixed in issue #8
