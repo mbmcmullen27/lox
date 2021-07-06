@@ -157,10 +157,16 @@ implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitFunctionStmt(Stmt.Function stmt) {
-        LoxFunction function = new LoxFunction(stmt, environment);
+        String fnName = stmt.name.lexeme;
+        LoxFunction function = new LoxFunction(fnName, stmt.function, environment);
         environment.define(stmt.name.lexeme, function);
         environment.assign(stmt.name, function);
         return null;
+    }
+
+    @Override
+    public Object visitFunctionExpr(Expr.Function expr) {
+        return new LoxFunction(null, expr, environment);
     }
 
     @Override
