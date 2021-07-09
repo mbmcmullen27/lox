@@ -8,9 +8,15 @@ import java.util.Stack;
 class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     private final Interpreter interpreter;
     private final Stack<Map<String, Boolean>> scopes = new Stack<>();
+    private FunctionType currentFunction = FunctionType.NONE;
 
     Resolver(Interpreter interpreter) {
         this.interpreter = interpreter;
+    }
+
+    private enum FunctionType {
+        NONE,
+        FUNCTION
     }
 
     @Override
@@ -32,7 +38,13 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         declare(stmt.name);
         define(stmt.name);
 
-        resolveFunction(stmt.function);
+        resolveFunction(stmt.function, FunctionType.FUNCTION);
+        return null;
+    }
+
+    @Override
+    public Void visitFunctionExpr(Expr.Function expr) {
+        resolveFunction(expr, FunctionType.FUNCTION);
         return null;
     }
 
@@ -52,6 +64,10 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     @Override
     public Void visitReturnStmt(Stmt.Return stmt) {
+        if(currentFunction == FunctionType.NONE) {
+            Lox.error(stmt.keyword, "Illegal return from global scope.");
+        }
+        
         if (stmt.value != null) {
             resolve(stmt.value);
         }
@@ -74,6 +90,15 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         }
 
         define(stmt.name);
+        return null;
+    }
+
+    @Override
+    public Void visitTernaryExpr(Expr.Ternary expr){
+        resolve(expr.condition);
+        resolve(expr.thenBranch);
+        resolve(expr.elseBranch);
+        if (expr.elseBranch != null) resolve(expr.elseBranch);
         return null;
     }
 
@@ -150,7 +175,10 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         expr.accept(this);
     }
 
-    private void resolveFunction(Expr.Function function) {
+    private void resolveFunction(Expr.Function function, FunctionType type) {
+        FunctionType enclosingFunction = currentFunction;
+        currentFunction = type;
+
         beginScope();
         for (Token param : function.parameters) {
             declare(param);
@@ -158,6 +186,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         }
         resolve(function.body);
         endScope();
+        currentFunction = enclosingFunction;
     }
 
     private void beginScope() {
@@ -172,6 +201,9 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         if (scopes.isEmpty()) return;
 
         Map<String, Boolean> scope = scopes.peek();
+        if (scope.containsKey(name.lexeme)) {
+            Lox.error(name, "Variable with name [" + name + "] already exists in scope");
+        }
         scope.put(name.lexeme, false);
     }
 

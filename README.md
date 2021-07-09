@@ -205,3 +205,9 @@ ___
             }
             ```
     - will need to test this thoroughly with anonymous functions
+    - implemented visitFunctionExpr to resolve variables in anonymous functions
+
+- Java void vs Void?
+
+- we also need to implement visitTernaryExpr in Resolver class
+- and break statement
