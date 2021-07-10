@@ -10,5 +10,6 @@ src/Stmt.java
 src/Return.java
 src/Parser.java
 src/Interpreter.java
+src/Resolver.java
 src/Environment.java
 src/RuntimeError.java
