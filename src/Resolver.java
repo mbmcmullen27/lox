@@ -16,13 +16,15 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     private enum FunctionType {
         NONE,
-        FUNCTION
+        FUNCTION,
+        BLOCK,
+        WHILE
     }
 
     @Override
     public Void visitBlockStmt(Stmt.Block stmt) {
         beginScope();
-        resolve(stmt.statements);
+        resolveBlock(stmt, FunctionType.BLOCK);
         endScope();
         return null;
     }
@@ -76,9 +78,18 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
 
     @Override
+    public Void visitBreakStmt(Stmt.Break stmt) {
+        if(currentFunction == FunctionType.NONE) {
+            Lox.error(stmt.keyword, "Illegal break from invalid scope.");
+        }
+
+        return null;
+    }
+
+    @Override
     public Void visitWhileStmt(Stmt.While stmt) {
         resolve(stmt.condition);
-        resolve(stmt.body);
+        resolveWhile(stmt.body, FunctionType.WHILE);
         return null;
     }
 
@@ -173,6 +184,20 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     private void resolve(Expr expr) {
         expr.accept(this);
+    }
+
+    private void resolveBlock(Stmt.Block stmt, FunctionType type){
+        FunctionType enclosingFunction = currentFunction;
+        currentFunction = type;
+        resolve(stmt.statements);
+        currentFunction = enclosingFunction;
+    }
+
+    private void resolveWhile(Stmt stmt, FunctionType type){
+        FunctionType enclosingFunction = currentFunction;
+        currentFunction = type;
+        resolve(stmt);
+        currentFunction = enclosingFunction;
     }
 
     private void resolveFunction(Expr.Function function, FunctionType type) {

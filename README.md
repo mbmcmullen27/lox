@@ -211,3 +211,8 @@ ___
 
 - we also need to implement visitTernaryExpr in Resolver class
 - and break statement
+    - As part of the challenge to add breaks, we added the check for loops in the parser
+    - Is it better to catch this in the parser or the resolver?
+        - right now its in both but the parser runs first and is more restrictive (only break in loops) I kind of want to be able to break out of any scope
+            - functions, blocks, loops
+            - Is there legitimate use for breaking out of functions and blocks??
