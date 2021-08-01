@@ -134,7 +134,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitCallExpr(Expr.Call expr) {
         resolve(expr.callee);
 
-        for (Expr argument: expr.arguments) {
+        for (Expr argument : expr.arguments) {
             resolve(argument);
         }
 
@@ -217,7 +217,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
         Map<String, Boolean> scope = scopes.peek();
         if (scope.containsKey(name.lexeme)) {
-            Lox.error(name, "A variable already exists with the name " + name.lexeme + " in this scope");
+            Lox.error(name, "Variable with name [" + name.lexeme + "] already exists in scope");
         }
         scope.put(name.lexeme, false);
     }
