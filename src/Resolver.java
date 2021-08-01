@@ -16,7 +16,8 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
     private enum FunctionType {
         NONE,
-        FUNCTION
+        FUNCTION,
+        LOOP
     }
 
     void resolve(List<Stmt> statements) {
@@ -43,7 +44,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitFunctionStmt(Stmt.Function stmt) {
         declare(stmt.name);
         define(stmt.name);
-        resolveFunction(stmt, FunctionType.FUNCTION);
+        resolveFunction(stmt.function, FunctionType.FUNCTION);
         return null;
     }
 
@@ -111,7 +112,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     @Override
     public Void visitWhileStmt(Stmt.While stmt) {
         resolve(stmt.condition);
-        resolve(stmt.body);
+        resolveWhile(stmt, FunctionType.LOOP);
         return null;
     }
 
@@ -133,7 +134,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitCallExpr(Expr.Call expr) {
         resolve(expr.callee);
 
-        for(Expr argument: expr.arguments) {
+        for (Expr argument: expr.arguments) {
             resolve(argument);
         }
 
@@ -145,7 +146,8 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(expr.expression);
         return null;
     }
-
+    
+    @Override
     public Void visitLiteralExpr(Expr.Literal expr) {
         return null;
     }
@@ -181,17 +183,10 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         expr.accept(this);
     }
 
-    private void resolveFunction(Stmt.Function function, FunctionType type) {
+    private void resolveWhile(Stmt.While stmt, FunctionType type){
         FunctionType enclosingFunction = currentFunction;
         currentFunction = type;
-        
-        beginScope();
-        for (Token param : function.function.parameters) {
-            declare(param);
-            define(param);
-        }
-        resolve(function.function.body);
-        endScope();
+        resolve(stmt.body);
         currentFunction = enclosingFunction;
     }
 
