@@ -17,14 +17,19 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     private enum FunctionType {
         NONE,
         FUNCTION,
-        BLOCK,
-        WHILE
+        LOOP
+    }
+
+    void resolve(List<Stmt> statements) {
+        for (Stmt statement : statements) {
+            resolve(statement);
+        }
     }
 
     @Override
     public Void visitBlockStmt(Stmt.Block stmt) {
         beginScope();
-        resolveBlock(stmt, FunctionType.BLOCK);
+        resolve(stmt.statements);
         endScope();
         return null;
     }
@@ -39,7 +44,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitFunctionStmt(Stmt.Function stmt) {
         declare(stmt.name);
         define(stmt.name);
-
         resolveFunction(stmt.function, FunctionType.FUNCTION);
         return null;
     }
@@ -55,6 +59,14 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(stmt.condition);
         resolve(stmt.thenBranch);
         if (stmt.elseBranch != null) resolve(stmt.elseBranch);
+        return null;
+    }
+
+    @Override
+    public Void visitTernaryExpr(Expr.Ternary expr){
+        resolve(expr.condition);
+        resolve(expr.thenBranch);
+        if (expr.elseBranch != null) resolve(expr.elseBranch);
         return null;
     }
 
@@ -78,22 +90,6 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
 
     @Override
-    public Void visitBreakStmt(Stmt.Break stmt) {
-        if(currentFunction == FunctionType.NONE) {
-            Lox.error(stmt.keyword, "Illegal break from invalid scope.");
-        }
-
-        return null;
-    }
-
-    @Override
-    public Void visitWhileStmt(Stmt.While stmt) {
-        resolve(stmt.condition);
-        resolveWhile(stmt.body, FunctionType.WHILE);
-        return null;
-    }
-
-    @Override
     public Void visitVarStmt(Stmt.Var stmt) {
         declare(stmt.name);
         if (stmt.initializer != null) {
@@ -105,21 +101,18 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     }
 
     @Override
-    public Void visitTernaryExpr(Expr.Ternary expr){
-        resolve(expr.condition);
-        resolve(expr.thenBranch);
-        resolve(expr.elseBranch);
-        if (expr.elseBranch != null) resolve(expr.elseBranch);
+    public Void visitBreakStmt(Stmt.Break stmt) {
+        if(currentFunction == FunctionType.NONE) {
+            Lox.error(stmt.keyword, "Illegal break from invalid scope.");
+        }
+
         return null;
     }
 
     @Override
-    public Void visitVariableExpr(Expr.Variable expr) {
-        if (!scopes.isEmpty() && scopes.peek().get(expr.name.lexeme) == Boolean.FALSE) {
-            Lox.error(expr.name, "Can't read local variable in its own initializer.");
-        }
-
-        resolveLocal(expr, expr.name);
+    public Void visitWhileStmt(Stmt.While stmt) {
+        resolve(stmt.condition);
+        resolveWhile(stmt, FunctionType.LOOP);
         return null;
     }
 
@@ -158,24 +151,29 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     public Void visitLiteralExpr(Expr.Literal expr) {
         return null;
     }
-    
+
     @Override
     public Void visitLogicalExpr(Expr.Logical expr) {
         resolve(expr.left);
         resolve(expr.right);
         return null;
     }
-    
+
     @Override
     public Void visitUnaryExpr(Expr.Unary expr) {
         resolve(expr.right);
         return null;
     }
 
-    void resolve(List<Stmt> statements) {
-        for (Stmt statement : statements) {
-            resolve(statement);
+
+    @Override
+    public Void visitVariableExpr(Expr.Variable expr) {
+        if (!scopes.isEmpty() && scopes.peek().get(expr.name.lexeme) == Boolean.FALSE) {
+            Lox.error(expr.name, "Can't read local variable in its own initializer.");
         }
+
+        resolveLocal(expr, expr.name);
+        return null;
     }
 
     private void resolve(Stmt stmt) {
@@ -186,17 +184,10 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         expr.accept(this);
     }
 
-    private void resolveBlock(Stmt.Block stmt, FunctionType type){
+    private void resolveWhile(Stmt.While stmt, FunctionType type){
         FunctionType enclosingFunction = currentFunction;
         currentFunction = type;
-        resolve(stmt.statements);
-        currentFunction = enclosingFunction;
-    }
-
-    private void resolveWhile(Stmt stmt, FunctionType type){
-        FunctionType enclosingFunction = currentFunction;
-        currentFunction = type;
-        resolve(stmt);
+        resolve(stmt.body);
         currentFunction = enclosingFunction;
     }
 
@@ -227,22 +218,25 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
 
         Map<String, Boolean> scope = scopes.peek();
         if (scope.containsKey(name.lexeme)) {
-            Lox.error(name, "Variable with name [" + name + "] already exists in scope");
+            Lox.error(name, "Variable with name [" + name.lexeme + "] already exists in scope");
+
         }
         scope.put(name.lexeme, false);
     }
 
     private void define(Token name) {
-        if(scopes.isEmpty()) return;
+        if (scopes.isEmpty()) return;
         scopes.peek().put(name.lexeme, true);
     }
 
     private void resolveLocal(Expr expr, Token name) {
         for (int i = scopes.size() - 1; i >= 0; i--) {
-            if (scopes.get(i).containsKey(name.lexeme)) {
-                interpreter.resolve(expr, scopes.size() -1 -i);
+            if (scopes.get(i).containsKey(name.lexeme)){
+                interpreter.resolve(expr, scopes.size() - 1 - i);
+
                 return;
             }
         }
     }
 }
+
