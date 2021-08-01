@@ -180,14 +180,15 @@ ___
 ### Chapter 11 - Resolving and Binding
 
 - Second pass - static analysis
-   > There are no side effects. When the static analysis visits a print statement, it doesn’t actually print anything. Calls to native functions or other operations that reach out to the outside world are stubbed out and have no effect.
+   > "There are no side effects. When the static analysis visits a print statement, it doesn’t actually print anything. Calls to native functions or other operations that reach out to the outside world are stubbed out and have no effect."
 
-    >There is no control flow. Loops are visited only once. Both branches are visited in if statements. Logic operators are not short-circuited.
+    > "There is no control flow. Loops are visited only once. Both branches are visited in if statements. Logic operators are not short-circuited."
 
 - The author tends to lean towards more restrictive syntax, assuming no one would ever want to do a thing, make it an error or make it impossible.
-- I tend to disagree, language shouldn't tell the speaker what to say or how to say it. 
+- I tend to disagree, language shouldn't tell the speaker what to say or how to say it.
+- I think  there's space for both, and heavily Object Oriented code, makes programatic analysis easier I suppose, and stops the programmer from making common mistakes, but makes for a poor programming experience in my opinion.
 - "Unlikely to be deliberate" isn't enough to convince me no one would/should ever try.
-    > Do either of those first two options look like something a user actually wants? Shadowing is rare and often an error, so initializing a shadowing variable based on the value of the shadowed one seems unlikely to be deliberate.
+    > "Do either of those first two options look like something a user actually wants? Shadowing is rare and often an error, so initializing a shadowing variable based on the value of the shadowed one seems unlikely to be deliberate."
 
 - functions are expressions and statements to make anonymous functions happen. This calls for changes in the resolver. 
     - resolveFunction
@@ -221,8 +222,7 @@ ___
 - we stepped away from this book when our code was broken to finish Art of WebAssembly and got a bit turned around.
 - DONT FORGET TO MERGE IN MAIN'S README BEFORE ROLLING IT BACK SO WE DON'T LOSE NOTES (addressed as merge conflict resolution)
 
-(188)
-    Those are the only changes to Interpreter. This is why I chose a representation for our resolved data that was minimally invasive. All of the rest of the nodes continue working as they did before. Even the  code for modifying environments is unchanged
+> "Those are the only changes to Interpreter. This is why I chose a representation for our resolved data that was minimally invasive. All of the rest of the nodes continue working as they did before. Even the  code for modifying environments is unchanged" (188)
 
 - OOP is bad for this, boilerplate complexity seems like grows exponentially with the number of classes and interfaces involved 
 
