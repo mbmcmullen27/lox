@@ -146,7 +146,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(expr.expression);
         return null;
     }
-    
+
     @Override
     public Void visitLiteralExpr(Expr.Literal expr) {
         return null;
@@ -164,6 +164,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         resolve(expr.right);
         return null;
     }
+
 
     @Override
     public Void visitVariableExpr(Expr.Variable expr) {
@@ -193,7 +194,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
     private void resolveFunction(Expr.Function function, FunctionType type) {
         FunctionType enclosingFunction = currentFunction;
         currentFunction = type;
-        
+
         beginScope();
         for (Token param : function.parameters) {
             declare(param);
@@ -218,6 +219,7 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         Map<String, Boolean> scope = scopes.peek();
         if (scope.containsKey(name.lexeme)) {
             Lox.error(name, "Variable with name [" + name.lexeme + "] already exists in scope");
+
         }
         scope.put(name.lexeme, false);
     }
@@ -231,8 +233,10 @@ class Resolver implements Expr.Visitor<Void>, Stmt.Visitor<Void> {
         for (int i = scopes.size() - 1; i >= 0; i--) {
             if (scopes.get(i).containsKey(name.lexeme)){
                 interpreter.resolve(expr, scopes.size() - 1 - i);
+
                 return;
             }
         }
     }
 }
+

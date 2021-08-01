@@ -177,9 +177,49 @@ ___
     - This gets us almost there, tests/functions and tests/count now work, but tests/fibonacci throws errors because of functions as operands for the + operator
     - fixed in issue #8
 
+### Chapter 11 - Resolving and Binding
+
+- Second pass - static analysis
+   > There are no side effects. When the static analysis visits a print statement, it doesn’t actually print anything. Calls to native functions or other operations that reach out to the outside world are stubbed out and have no effect.
+
+    >There is no control flow. Loops are visited only once. Both branches are visited in if statements. Logic operators are not short-circuited.
+
+- The author tends to lean towards more restrictive syntax, assuming no one would ever want to do a thing, make it an error or make it impossible.
+- I tend to disagree, language shouldn't tell the speaker what to say or how to say it. 
+- "Unlikely to be deliberate" isn't enough to convince me no one would/should ever try.
+    > Do either of those first two options look like something a user actually wants? Shadowing is rare and often an error, so initializing a shadowing variable based on the value of the shadowed one seems unlikely to be deliberate.
+
+- functions are expressions and statements to make anonymous functions happen. This calls for changes in the resolver. 
+    - resolveFunction
+        - change definition to take Expr.Function instead of Stmt.Function
+    - visitFunctionStmt
+        - pass the function expression field from the function statement to resolve
+            ```Java
+            @Override
+            public Void visitFunctionStmt(Stmt.Function stmt) {
+                declare(stmt.name);
+                define(stmt.name);
+
+                resolveFunction(stmt.function);
+                return null;
+            }
+            ```
+    - will need to test this thoroughly with anonymous functions
+    - implemented visitFunctionExpr to resolve variables in anonymous functions
+
+- Java void vs Void?
+
+- we also need to implement visitTernaryExpr in Resolver class
+- and break statement
+    - As part of the challenge to add breaks, we added the check for loops in the parser
+    - Is it better to catch this in the parser or the resolver?
+        - right now its in both but the parser runs first and is more restrictive (only break in loops) I kind of want to be able to break out of any scope
+            - functions, blocks, loops
+            - Is there legitimate use for breaking out of functions and blocks??
+            
 ### Restarting Chapter 11 Resolution and Binding
 - we stepped away from this book when our code was broken to finish Art of WebAssembly and got a bit turned around.
-- DONT FORGET TO MERGE IN MAIN'S README BEFORE ROLLING IT BACK SO WE DON'T LOSE NOTES
+- DONT FORGET TO MERGE IN MAIN'S README BEFORE ROLLING IT BACK SO WE DON'T LOSE NOTES (addressed as merge conflict resolution)
 
 (188)
     Those are the only changes to Interpreter. This is why I chose a representation for our resolved data that was minimally invasive. All of the rest of the nodes continue working as they did before. Even the  code for modifying environments is unchanged

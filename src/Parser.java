@@ -140,6 +140,7 @@ class Parser {
 
     private Stmt breakStatement() {
         Token keyword = previous();
+
         if (loopDepth == 0) {
             error(previous(), "Must be inside a loop to use 'break'.");
         }

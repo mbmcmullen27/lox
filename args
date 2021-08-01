@@ -11,5 +11,6 @@ src/Return.java
 src/Parser.java
 src/Resolver.java
 src/Interpreter.java
+src/Resolver.java
 src/Environment.java
 src/RuntimeError.java
