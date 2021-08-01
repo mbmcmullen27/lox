@@ -9,6 +9,7 @@ src/Expr.java
 src/Stmt.java
 src/Return.java
 src/Parser.java
+src/Resolver.java
 src/Interpreter.java
 src/Environment.java
 src/RuntimeError.java

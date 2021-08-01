@@ -139,12 +139,13 @@ class Parser {
     }
 
     private Stmt breakStatement() {
+        Token keyword = previous();
         if (loopDepth == 0) {
             error(previous(), "Must be inside a loop to use 'break'.");
         }
 
         consume(SEMICOLON, "Expect ';' after break statement.");
-        return new Stmt.Break();    
+        return new Stmt.Break(keyword);    
     }
 
     private Stmt varDeclaration() {

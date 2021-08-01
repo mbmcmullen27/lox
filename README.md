@@ -176,3 +176,21 @@ ___
     - I suspect this is going to cause more trouble later, and only caused a problem right now because unassigned vars is defined as an Error.
     - This gets us almost there, tests/functions and tests/count now work, but tests/fibonacci throws errors because of functions as operands for the + operator
     - fixed in issue #8
+
+### Restarting Chapter 11 Resolution and Binding
+- we stepped away from this book when our code was broken to finish Art of WebAssembly and got a bit turned around.
+- DONT FORGET TO MERGE IN MAIN'S README BEFORE ROLLING IT BACK SO WE DON'T LOSE NOTES
+
+(188)
+    Those are the only changes to Interpreter. This is why I chose a representation for our resolved data that was minimally invasive. All of the rest of the nodes continue working as they did before. Even the  code for modifying environments is unchanged
+
+- OOP is bad for this, boilerplate complexity seems like grows exponentially with the number of classes and interfaces involved 
+
+because a function statement holds a function expression...
+```java
+        for (Token param : function.function.parameters) {
+            declare(param);
+            define(param);
+        }
+        resolve(function.function.body);
+```
