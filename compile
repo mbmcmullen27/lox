@@ -1,7 +1,11 @@
 #!/bin/bash
-# This doesn't work until we fix the AST printer
-# javac -d ./ src/*;
 
 
-# This works right now and makes a jar
-javac @args && jar -cfm lox.jar manifest.txt com/
+# make this an option
+# java tool/GenerateAst.java tool/
+# java tool/GenerateAst.java src/
+
+javac -d ./ src/[^AstPrinter]*.java && jar -cfm lox.jar manifest.txt com/
+
+# This works with the args file and makes a jar
+# javac @args && jar -cfm lox.jar manifest.txt com/

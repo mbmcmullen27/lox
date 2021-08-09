@@ -234,3 +234,22 @@ because a function statement holds a function expression...
         }
         resolve(function.function.body);
 ```
+
+
+### Chapter 12 Classes
+- page 206, in visitClassStmt() in Interpreter.java, the loop to methods for the class are defined
+```java
+        for (Stmt.Function method : stmt.methods) {
+            LoxFunction function = new LoxFunction(method, environment);
+            methods.put(method.name.lexeme, function);
+        }
+```
+- but lox function constructor takes 3 arguments (I'm not sure if this was a change because of a challenge question or not we will have to back track...) and we need a function expr not a function stmt (this I'm pretty sure was a challenge question)
+```java
+    LoxFunction(String name, Expr.Function declaration, Environment closure) {
+        this.name = name;
+        this.closure = closure;
+        this.declaration = declaration;
+    }
+```
+
