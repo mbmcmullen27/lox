@@ -1,4 +1,6 @@
-package com.craftinginterpreters.lox;
+package tools;
+
+import com.craftinginterpreters.lox.Expr;
 
 class AstPrinter implements Expr.Visitor<String> {
     String print(Expr expr) { 
@@ -24,12 +26,6 @@ class AstPrinter implements Expr.Visitor<String> {
     public String visitLiteralExpr(Expr.Literal expr) {
         if (expr.value == null) return "nil";
         return parenthesize(expr.value.toString());
-    }
-
-    @Override
-    public String visitVariableExpr(Expr.Variable expr) {
-        if (expr.name == null) return "nil";
-        return parenthesize(expr.name.lexeme);
     }
 
     @Override

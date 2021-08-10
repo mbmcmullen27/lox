@@ -253,3 +253,5 @@ because a function statement holds a function expression...
     }
 ```
 
+- fixed "package structure" - not a huge fan of how this is enforced
+- AstPrinter.java I moved to tools, but in order for it to see Expr everything in Expr needs to be made public

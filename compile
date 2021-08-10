@@ -5,7 +5,7 @@
 # java tool/GenerateAst.java tool/
 # java tool/GenerateAst.java src/
 
-javac -d ./ src/[^AstPrinter]*.java && jar -cfm lox.jar manifest.txt com/
+javac com/craftinginterpreters/lox/[^AstPrinter]*.java && jar -cfm lox.jar manifest.txt com/
 
 # This works with the args file and makes a jar
 # javac @args && jar -cfm lox.jar manifest.txt com/
