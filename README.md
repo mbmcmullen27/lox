@@ -267,5 +267,6 @@ because a function statement holds a function expression...
     ```
     > It's definitely not going to do what they want, so we may as well make it as static error"
 
-    ^^ this I vehemently disagree with... I'll submit it's not a common case but I have done [this](https://github.com/mbmcmullen/Capstone/blob/master/Iteration_2/ExpressKPI/rxSource.js) with intention and I was happy javascript allowed me to
+    ^^ This I vehemently disagree with... I'll submit it's not a common case but I have done [this](https://github.com/mbmcmullen/Capstone/blob/master/Iteration_2/ExpressKPI/rxSource.js) with intention and I was happy javascript allowed me to. 
+    I think it's better is to return 'this' by default, unless provided something else.
     
