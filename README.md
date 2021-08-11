@@ -234,3 +234,39 @@ because a function statement holds a function expression...
         }
         resolve(function.function.body);
 ```
+
+
+### Chapter 12 Classes
+- page 206, in visitClassStmt() in Interpreter.java, the loop to methods for the class are defined
+```java
+        for (Stmt.Function method : stmt.methods) {
+            LoxFunction function = new LoxFunction(method, environment);
+            methods.put(method.name.lexeme, function);
+        }
+```
+- but lox function constructor takes 3 arguments (I'm not sure if this was a change because of a challenge question or not we will have to back track...) and we need a function expr not a function stmt (this I'm pretty sure was a challenge question)
+```java
+    LoxFunction(String name, Expr.Function declaration, Environment closure) {
+        this.name = name;
+        this.closure = closure;
+        this.declaration = declaration;
+    }
+```
+
+- fixed "package structure" - not a huge fan of how this is enforced
+- AstPrinter.java I moved to tools, but in order for it to see Expr everything in Expr needs to be made public
+- 12.6 My LoxFunction implementation also has 'name' in the constructor, the book just has declaration, and environment
+- 12.7.2 
+    > "We've been assuming that a user-written initializer doesn't explicitly return a value because most constructors don't. What should happen if a user tries:
+    ```lox
+    class Foo {
+        init() {
+            return "something else";
+        }
+    }
+    ```
+    > It's definitely not going to do what they want, so we may as well make it as static error"
+
+    ^^ This I vehemently disagree with... I'll submit it's not a common case but I have done [this](https://github.com/mbmcmullen/Capstone/blob/master/Iteration_2/ExpressKPI/rxSource.js) with intention and I was happy javascript allowed me to. 
+    I think it's better is to return 'this' by default, unless provided something else.
+    
