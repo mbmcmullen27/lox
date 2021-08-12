@@ -270,3 +270,8 @@ because a function statement holds a function expression...
     ^^ This I vehemently disagree with... I'll submit it's not a common case but I have done [this](https://github.com/mbmcmullen/Capstone/blob/master/Iteration_2/ExpressKPI/rxSource.js) with intention and I was happy javascript allowed me to. 
     I think it's better is to return 'this' by default, unless provided something else.
     
+- challenges:
+    ```java
+    (isClassMethod ? classMethods: methods).add(function("method"));
+    ```
+    - ^^ clever use of the ternary operator I've not seen this before
