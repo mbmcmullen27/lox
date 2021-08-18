@@ -275,3 +275,19 @@ because a function statement holds a function expression...
     (isClassMethod ? classMethods: methods).add(function("method"));
     ```
     - ^^ clever use of the ternary operator I've not seen this before
+
+### Chapter 14 Bytecode
+- begins c virtual machine implementation
+- brush up on c macros like how GROW_CAPACITY and GROW_ARRAY are defined in memory.h
+- I didn't realize in c you can just pass a type to a function like any other value
+    - is this specific to macros?
+
+    ```c
+    #define FREE_ARRAY(type, pointer, oldCount) \
+        reallocate(pointer, sizeof(type) * (oldCount), 0)
+
+    void freeChunk(Chunk* chunk) {
+        FREE_ARRAY(uint8_t, chunk->code, chunk->capacity);
+        initChunk(chunk);
+    }
+    ```
