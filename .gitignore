@@ -1,3 +1,5 @@
 *.class
 *.jar
 .vscode
+clox/*.o
+clox/clox
