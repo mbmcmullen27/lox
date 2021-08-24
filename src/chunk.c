@@ -50,7 +50,7 @@ int addConstant(Chunk* chunk, Value value) {
     return chunk->constants.count - 1;
 }
 
-int writeConstant(Chunk* chunk, Value value, int line) {
+void writeConstant(Chunk* chunk, Value value, int line) {
     int index = addConstant(chunk, value);
     if (index < 256) {
         writeChunk(chunk, OP_CONSTANT, line);
