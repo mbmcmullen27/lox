@@ -291,3 +291,21 @@ because a function statement holds a function expression...
         initChunk(chunk);
     }
     ```
+### Chapter 15 VM 
+- for loop initialize statement that initializes something other than an int always surprises me. Here he initialized a stack.
+    ```c
+    for (Value* slot = vm.stack; slot < vm.stackTop; slot++) {
+      printf("[ ");
+      printValue(*slot);
+      printf(" ]");
+    }
+    ```
+- hold on... can we pass operators as parameters to functions in c?
+    ```c
+    case OP_ADD:        BINARY_OP(+); break;
+    case OP_SUBTRACT:   BINARY_OP(-); break;
+    case OP_MULTIPLY:   BINARY_OP(*); break;
+    case OP_DIVIDE:     BINARY_OP(/); break;
+    ```
+- ^^ BINARY_OP is a macro
+> "I admit this is a fairly adventurous use of the C preprocessor."
