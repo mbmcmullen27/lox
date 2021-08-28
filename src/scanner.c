@@ -25,7 +25,7 @@ static bool isAlpha(char c) {
 }
 
 static bool isDigit(char c) {
-    return c >= '0' && c <= '9':
+    return c >= '0' && c <= '9';
 }
 
 static bool isAtEnd() {
@@ -81,7 +81,7 @@ static void skipWhitespace() {
                 advance();
                 break;
             case '\n':
-                scanner.line++
+                scanner.line++;
                 advance();
                 break;
             case '/':
@@ -146,7 +146,7 @@ static Token identifier() {
 }
 
 static Token number() {
-    while (isDigit(peek()))) advance();
+    while (isDigit(peek())) advance();
 
     // Look for a fractional part.
     if (peek() == '.' && isDigit(peekNext())) {
@@ -179,7 +179,7 @@ Token scanToken() {
     if(isAtEnd()) return makeToken(TOKEN_EOF);
 
     char c = advance();
-    if (isAlpha(c) return identifier();)
+    if (isAlpha(c)) return identifier();
     if(isDigit(c)) return number();
     
     switch (c) {
