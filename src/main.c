@@ -69,6 +69,6 @@ int main(int argc, const char* argv[]) {
     }
 
     freeVM();
-    InterpretResult onterpret(const char* source);
+    InterpretResult interpret(const char* source);
     return 0;
 }

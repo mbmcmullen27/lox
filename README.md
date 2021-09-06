@@ -309,3 +309,6 @@ because a function statement holds a function expression...
     ```
 - ^^ BINARY_OP is a macro
 > "I admit this is a fairly adventurous use of the C preprocessor."
+
+### Chapter 17 Pratt Parser
+- defining an Enum so we can more easily use an array as a table and reference elements by name is pretty clever. I wonder how common is this pattern.
