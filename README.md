@@ -310,10 +310,20 @@ because a function statement holds a function expression...
 - ^^ BINARY_OP is a macro
 > "I admit this is a fairly adventurous use of the C preprocessor."
 
-### Chapter 17 Pratt Parser
+### Chapter 17 Compiling Expressions
 - defining an Enum so we can more easily use an array as a table and reference elements by name is pretty clever. I wonder how common is this pattern.
 
 - Conditonal operator challenge question answer on book's github page might have an error in the consume() definition, unless this changes later consume doesn't take a compiler reference, only the expected token and an error message
 ```C
 consume(compiler, TOKEN_COLON, //...
+```
+
+### Chapter 18 Types of Values
+
+- need to brush up/read more into these macro definitions, this looks strange to me. It's not obvious how does this syntax work?
+value.h
+```C
+#define BOOL_VAL(value)     ((Value) {VAL_BOOL, {.boolean = value}})
+#define NIL_VAL             ((Value) {VAL_NIL, {.number = 0}})
+#define NUMBER_VAL(value)   ((Value) {VAL_NUMBER, {.number = value}})
 ```

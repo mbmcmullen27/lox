@@ -133,12 +133,12 @@ static void parsePrecedence(Precedence precedence);
 
 static void conditional() {
     // Compile the then branch.
-    parsePrecedence(compiler, PREC_CONDITIONAL);
+    parsePrecedence(PREC_CONDITIONAL);
 
     consume(TOKEN_COLON, "Expect ':' after then branch of conditional operator.");
     
     // Compile the else branch.
-    parsePrecedence(compiler, PREC_ASSIGNMET);
+    parsePrecedence(PREC_ASSIGNMET);
 }
 
 static void binary() {
@@ -162,7 +162,7 @@ static void grouping() {
 
 static void number() {
     double value = strtod(parser.previous.start, NULL);
-    emitConstant(value);
+    emitConstant(NUMBER_VAL(value));
 }
 
 static void unary() {
