@@ -327,3 +327,11 @@ value.h
 #define NIL_VAL             ((Value) {VAL_NIL, {.number = 0}})
 #define NUMBER_VAL(value)   ((Value) {VAL_NUMBER, {.number = value}})
 ```
+
+page 332: vm.c runtimeError
+```
+src/vm.c: In function ‘runtimeError’:
+src/vm.c:23:16: error: incompatible types when initializing type ‘int’ using type ‘LineStart’
+   23 |     int line = vm.chunk->lines[instruction];
+      |                ^~
+```
