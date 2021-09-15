@@ -335,3 +335,9 @@ src/vm.c:23:16: error: incompatible types when initializing type ‘int’ using
    23 |     int line = vm.chunk->lines[instruction];
       |                ^~
 ```
+
+- memcmp can't be used to implement the equality operator
+
+page 339:
+
+    "because of padding and different sized union fields, a Value contains unused bits. C gives no guarantee about what is in those, so it's possible that two equal VAlues acutally differ in memory that isn't used"

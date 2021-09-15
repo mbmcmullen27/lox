@@ -57,7 +57,7 @@ static InterpretResult run() {
     #define BINARY_OP(valueType, op) \
         do { \
             if (!IS_NUMBER(peek(0)) || !IS_NUMBER(peek(1))) { \
-                runtimeError("Operands must be nubmers."); \
+                runtimeError("Operands must be numbers."); \
                 return INTERPRET_RUNTIME_ERROR; \
             } \
             double b = AS_NUMBER(pop()); \
@@ -87,6 +87,14 @@ static InterpretResult run() {
                 case OP_NIL:        push(NIL_VAL); break;
                 case OP_TRUE:       push(BOOL_VAL(true)); break;
                 case OP_FALSE:      push(BOOL_VAL(false)); break;
+                case OP_EQUAL: {
+                    Value b = pop();
+                    Value a = pop();
+                    push(BOOL_VAL(valuesEqual(a,b)));
+                    break;
+                }
+                case OP_GREATER:    BINARY_OP(BOOL_VAL, >); break;
+                case OP_LESS:       BINARY_OP(BOOL_VAL, <); break;
                 case OP_ADD:        BINARY_OP(NUMBER_VAL, +); break;
                 case OP_SUBTRACT:   BINARY_OP(NUMBER_VAL, -); break;
                 case OP_MULTIPLY:   BINARY_OP(NUMBER_VAL, *); break;
