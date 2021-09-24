@@ -340,4 +340,8 @@ src/vm.c:23:16: error: incompatible types when initializing type ‘int’ using
 
 page 339:
 
-    "because of padding and different sized union fields, a Value contains unused bits. C gives no guarantee about what is in those, so it's possible that two equal VAlues acutally differ in memory that isn't used"
+    "because of padding and different sized union fields, a Value contains unused bits. C gives no guarantee about what is in those, so it's possible that two equal Values acutally differ in memory that isn't used"
+    
+### Chapter 19 Strings
+- we made a branch for the first challenge question, which involved changing the heap allocated char* to a stack allocated "flexible array memeber"
+- the second question involved adding a flag to signal ownership of the char array as a memory optimization for constant strings, but the solution ignored the implementation of the first question so we reverted them both to avoid problems later on
