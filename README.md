@@ -345,3 +345,6 @@ page 339:
 ### Chapter 19 Strings
 - we made a branch for the first challenge question, which involved changing the heap allocated char* to a stack allocated "flexible array memeber"
 - the second question involved adding a flag to signal ownership of the char array as a memory optimization for constant strings, but the solution ignored the implementation of the first question so we reverted them both to avoid problems later on
+
+### Chapter 20 Hash Table
+- branch from: c68b1b8 - "finish chapter 20" later if we decide to add support for key value types other than string for hash tables
