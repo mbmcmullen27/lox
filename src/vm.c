@@ -167,7 +167,7 @@ static InterpretResult run() {
                     break;
                 }
                 case OP_RETURN: {
-                    break;
+                    return INTERPRET_OK;
                 }
             }
         }
