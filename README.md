@@ -348,3 +348,21 @@ page 339:
 
 ### Chapter 20 Hash Table
 - branch from: c68b1b8 - "finish chapter 20" later if we decide to add support for key value types other than string for hash tables
+
+### Chapter 23 Control Flow
+```C
+static void patchJump(int offset) {
+    // -2 to adjust for the bytecode for the jump offset istself.
+    int jump = currentChunk()->count - offset -2;
+
+    if (jump > UINT16_MAX) {
+        error("Too much code to jump over.");
+    }
+
+    currentChunk()->code[offset] = (jump >> 8);
+    currentChunk()->code[offset + 1] = jump & 0xff;
+}
+```
+- This is one of those errors I didn't know might exist. The fact that you need to know how much code is in your then block and that is a value that needs to be stored makes sense. I wonder if modern languages have this limit, and its just very large, or if there's some more complicated mechanism to work around it.
+- I wonder if the 'backpatching' can happen in a second pass
+    - side note: what's a second pass look like in a bytecode based vm compiler?
