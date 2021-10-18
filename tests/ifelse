@@ -1,0 +1,14 @@
+var x = 1;
+var y = 1;
+
+if (x == y) {
+    print("Then verified");
+} else {
+    print("FAILED");
+}
+
+if (x != y) {
+    print("BROKEN");
+} else {
+    print("Else verified");
+}
