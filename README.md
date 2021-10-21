@@ -366,3 +366,11 @@ static void patchJump(int offset) {
 - This is one of those errors I didn't know might exist. The fact that you need to know how much code is in your then block and that is a value that needs to be stored makes sense. I wonder if modern languages have this limit, and its just very large, or if there's some more complicated mechanism to work around it.
 - I wonder if the 'backpatching' can happen in a second pass
     - side note: what's a second pass look like in a bytecode based vm compiler?
+
+### Chapter 24 Calls and Functions
+
+page 444:
+
+    "We could access the current frame by going through the CallFrame array every time, but that's verbose. More importantly, storing the frame in a local variable encourages the C compiler to keep that pointer in a register. That speeds up access to the frame's ip. There's no *guarantee* that the compiler will do this, but there's a good chance it will.
+
+- ^^ how much time do you have to spend looking at a compiler to gain insight like this? Does this really produce a noticible increase in speed, and is this true for all C compilers? Does gcc and clang behave the same for things like this?
