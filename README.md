@@ -374,3 +374,11 @@ page 444:
     "We could access the current frame by going through the CallFrame array every time, but that's verbose. More importantly, storing the frame in a local variable encourages the C compiler to keep that pointer in a register. That speeds up access to the frame's ip. There's no *guarantee* that the compiler will do this, but there's a good chance it will.
 
 - ^^ how much time do you have to spend looking at a compiler to gain insight like this? Does this really produce a noticible increase in speed, and is this true for all C compilers? Does gcc and clang behave the same for things like this?
+
+page ... 24.3.3
+vm.c in runtimeError()
+```C
+    int line = frame->function->chunk.lines[instruction];
+    //should be
+    int line = frame->function->chunk.lines[instruction].line; 
+```

@@ -8,4 +8,4 @@ fun add(a, b) {
 
 print add; // "<fn add>".
 
-sayHi("Dear", "Reader");
+//sayHi("Dear", "Reader");

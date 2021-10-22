@@ -25,7 +25,7 @@ static void runtimeError(const char* format, ...) {
 
     CallFrame* frame = &vm.frames[vm.frameCount - 1];
     size_t instruction = frame->ip - frame->function->chunk.code - 1;
-    int line = frame->function->chunk.lines[instruction]; 
+    int line = frame->function->chunk.lines[instruction].line; 
     fprintf(stderr, "[line %d] in script\n", line);
     resetStack();
 }
