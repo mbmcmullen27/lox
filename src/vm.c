@@ -224,7 +224,7 @@ static InterpretResult run() {
 
 InterpretResult interpret(const char* source) {
     ObjFunction* function = compile(source);
-    if (function == NULL) return INTERPRET_RUNTIME_ERROR;
+    if (function == NULL) return INTERPRET_COMPILE_ERROR;
 
     push(OBJ_VAL(function));
     CallFrame* frame = &vm.frames[vm.frameCount++];

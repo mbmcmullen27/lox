@@ -24,6 +24,7 @@ ObjFunction* newFunction() {
     function->arity = 0;
     function->name = NULL;
     initChunk(&function->chunk);
+    return function;
 }
 
 static ObjString* allocateString(char* chars, int length, uint32_t hash) {
