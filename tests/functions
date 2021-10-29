@@ -6,6 +6,6 @@ fun add(a, b) {
   print a + b;
 }
 
-print add; // "<fn add>".
+print add; // "<fn add>";
 
-sayHi("Dear", "Reader");
+//sayHi("Dear", "Reader");
