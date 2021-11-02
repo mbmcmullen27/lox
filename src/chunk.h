@@ -33,19 +33,13 @@ typedef enum {
     OP_RETURN,
 } OpCode;
 
-typedef struct {
-    int offset;
-    int line;
-} LineStart;
 
 typedef struct {
     int count;
     int capacity;
     uint8_t* code;
+    int* lines;
     ValueArray constants;
-    int lineCount;
-    int lineCapacity;
-    LineStart* lines;
 } Chunk;
 
 void initChunk(Chunk* chunk);
