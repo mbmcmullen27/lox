@@ -17,6 +17,8 @@ void* reallocate(void* pointer, size_t oldSize, size_t newSize) {
 static void freeObject(Obj* object) {
     switch (object->type) {
         case OBJ_CLOSURE: {
+            ObjClosure* closure = (ObjClosure*)object;
+            FREE_ARRAY(ObjUpvalue*, closure->upvalues, closure->upvalueCount);
             FREE(ObjClosure, object);
             break;
         }
@@ -37,8 +39,6 @@ static void freeObject(Obj* object) {
             break;
         }
         case OBJ_UPVALUE:
-            ObjClosure* closure = (ObjClosure*)object;
-            FREE_ARRAY(ObjUpvalue*, closure->upvalues, closure->upvalueCount);
             FREE(ObjUpvalue, object);
             break;
     }
