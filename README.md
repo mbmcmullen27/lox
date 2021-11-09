@@ -382,3 +382,10 @@ vm.c in runtimeError()
     //should be
     int line = frame->function->chunk.lines[instruction].line; 
 ```
+- not an error, the line in the book is correct, unless you implement the challenge question from chapter 14 that deals with optimizing line number generation
+
+### Chapter 25 Closures
+page 487:
+
+    "And function declarations that create closures are rarely on performance critical execution paths in the user's program"
+- does he mean in general? or is this specific to lox? Is he saying closed over variables are not very useful in practical applications?
