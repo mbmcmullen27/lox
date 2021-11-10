@@ -5,7 +5,7 @@
 
 #ifdef DEBUG_LOG_GC
 #include <stdio.h>
-#include "deebug.h"
+#include "debug.h"
 #endif
 
 void* reallocate(void* pointer, size_t oldSize, size_t newSize) {
