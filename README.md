@@ -389,3 +389,9 @@ page 487:
 
     "And function declarations that create closures are rarely on performance critical execution paths in the user's program"
 - does he mean in general? or is this specific to lox? Is he saying closed over variables are not very useful in practical applications?
+
+### Chapter 26 Garbage Collection
+page 502:
+    "The first managed langguage was Lisp, the second 'high-level' languaggge to be invented, right after Fortran (...) He designed the very first, simplest garbage collection algorithm, called mark-and-sweep (...) despite its age and simplicity, the same fundamental algorithm underlies many modern memory managers."
+
+- Lisp gets a lot of mentions in the book here. I had no idea it was such an important language. Seems its inventors brought a lot of new ideas to the table.
