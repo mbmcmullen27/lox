@@ -126,6 +126,7 @@ void printObject(Value value) {
     switch (OBJ_TYPE(value)) {
         case OBJ_CLASS:
             printf("%s", AS_CLASS(value)->name->chars);
+            break;
         case OBJ_CLOSURE:
             printFunction(AS_CLOSURE(value)->function);
             break;
