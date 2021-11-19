@@ -318,6 +318,7 @@ static InterpretResult run() {
                 if (!bindMethod(instance->klass, name)) {
                     return INTERPRET_RUNTIME_ERROR;
                 }
+                break;
             }
             case OP_SET_PROPERTY: {
                 if(!IS_INSTANCE(peek(1))) {
