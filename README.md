@@ -395,3 +395,8 @@ page 502:
     "The first managed langguage was Lisp, the second 'high-level' languaggge to be invented, right after Fortran (...) He designed the very first, simplest garbage collection algorithm, called mark-and-sweep (...) despite its age and simplicity, the same fundamental algorithm underlies many modern memory managers."
 
 - Lisp gets a lot of mentions in the book here. I had no idea it was such an important language. Seems its inventors brought a lot of new ideas to the table.
+
+### Chapter 29 Superclasses
+things to revist:
+    - bindmethod/boundMethod
+    - pratt parsing
