@@ -400,3 +400,8 @@ page 502:
 things to revist:
     - bindmethod/boundMethod
     - pratt parsing
+
+### Chapter 30 Optimizations
+
+(page 600)
+- Author complains about IEEE 754 - standard for floating point arithmetic - requiring "NaN == NaN" to evaluate to false
